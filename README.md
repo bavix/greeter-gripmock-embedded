@@ -2,6 +2,9 @@
 
 Test using gripmock SDK (embedded mock).
 
+> **⚠️ Experimental SDK**  
+> This SDK is experimental and may be discontinued or never released. Use at your own risk.
+
 ## Installing the dependency
 
 ```bash
