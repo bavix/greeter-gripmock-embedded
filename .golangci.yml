@@ -1,0 +1,30 @@
+version: "2"
+run:
+  timeout: 3m
+  go: "1.26"
+
+linters:
+  default: all
+  disable:
+    - wsl  # deprecated, use wsl_v5
+    - exhaustruct
+    - varnamelen
+    - wrapcheck
+    - gomoddirectives
+    - ireturn
+    - depguard
+  enable:
+    - nlreturn
+
+formatters:
+  enable:
+    - gci
+    - gofmt
+    - gofumpt
+    - goimports
+  settings:
+    gci:
+      sections:
+        - Standard
+        - Default
+        - Prefix(github.com/bavix)
