@@ -5,7 +5,7 @@ GOLANGCI_LINT := go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v
 generate:
 	protoc --go_out=. --go_opt=module=github.com/bavix/greeter-gripmock-embedded \
 		--go-grpc_out=. --go-grpc_opt=module=github.com/bavix/greeter-gripmock-embedded \
-		service.proto
+		greeter.proto timed.proto
 
 test: generate
 	go test -race -cover ./...

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option go_package = "github.com/bavix/greeter-gripmock-embedded/timed";
+
+package timed;
+
+service TimedGreeter {
+  rpc SayHello(HelloRequest) returns (HelloReply);
+}
+
+message HelloRequest {
+  string name = 1;
+}
+
+message HelloReply {
+  string message = 1;
+  int64 duration_ms = 2;
+}

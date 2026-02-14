@@ -25,7 +25,7 @@ Then run `go mod tidy`.
 make generate
 ```
 
-This generates `helloworld/*.pb.go` from `service.proto` via protoc.
+This generates `helloworld/*.pb.go` and `timed/*.pb.go` from `greeter.proto` and `timed.proto` via protoc.
 
 ## Running tests
 
