@@ -16,9 +16,8 @@ import (
 
 func runGreeterMock(t *testing.T) (sdk.Mock, helloworld.GreeterClient) {
 	t.Helper()
-	mock, err := sdk.Run(t.Context(), sdk.WithFileDescriptor(helloworld.File_greeter_proto))
+	mock, err := sdk.Run(t, sdk.WithFileDescriptor(helloworld.File_greeter_proto))
 	require.NoError(t, err)
-	t.Cleanup(func() { _ = mock.Close() })
 
 	return mock, helloworld.NewGreeterClient(mock.Conn())
 }
