@@ -1,6 +1,6 @@
 .PHONY: generate test lint lint-fix fmt
 
-GOLANGCI_LINT := go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.9.0
+GOLANGCI_LINT := go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.10.1
 
 generate:
 	protoc --go_out=. --go_opt=module=github.com/bavix/greeter-gripmock-embedded \
