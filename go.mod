@@ -5,7 +5,7 @@ go 1.26
 require (
 	github.com/bavix/gripmock/v3 v3.8.2
 	github.com/stretchr/testify v1.11.1
-	google.golang.org/grpc v1.79.2
+	google.golang.org/grpc v1.79.3
 	google.golang.org/protobuf v1.36.11
 )
 
