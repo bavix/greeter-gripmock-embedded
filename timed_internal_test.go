@@ -48,13 +48,13 @@ func setupTimedServer(t *testing.T) (timed.TimedGreeterClient, sdk.Mock) {
 	return runTimedServer(t, greeterClient), mock
 }
 
-func TestTimedGreeter_SayHello(t *testing.T) {
+func TestTimedGreeterSayHello(t *testing.T) {
 	t.Parallel()
 
 	// Arrange
 	client, mock := setupTimedServer(t)
 	delayMs := 20
-	mock.Stub("helloworld.Greeter", "SayHello").
+	mock.Stub(sdk.By(helloworld.Greeter_SayHello_FullMethodName)).
 		Unary("name", "Bob", "message", "Hello Bob").
 		Delay(time.Duration(delayMs) * time.Millisecond).
 		Commit()
@@ -68,13 +68,13 @@ func TestTimedGreeter_SayHello(t *testing.T) {
 	require.GreaterOrEqual(t, reply.GetDurationMs(), int64(delayMs))
 }
 
-func TestTimedGreeter_SayHello_DynamicTemplate(t *testing.T) {
+func TestTimedGreeterSayHelloDynamicTemplate(t *testing.T) {
 	t.Parallel()
 
 	// Arrange
 	client, mock := setupTimedServer(t)
 	delayMs := 30
-	mock.Stub("helloworld.Greeter", "SayHello").
+	mock.Stub(sdk.By(helloworld.Greeter_SayHello_FullMethodName)).
 		When(sdk.Matches("name", ".+")).
 		Return("message", "Hi {{.Request.name}}").
 		Delay(time.Duration(delayMs) * time.Millisecond).
@@ -89,13 +89,13 @@ func TestTimedGreeter_SayHello_DynamicTemplate(t *testing.T) {
 	require.GreaterOrEqual(t, reply.GetDurationMs(), int64(delayMs))
 }
 
-func TestTimedGreeter_SayHello_WithDelay(t *testing.T) {
+func TestTimedGreeterSayHelloWithDelay(t *testing.T) {
 	t.Parallel()
 
 	// Arrange
 	client, mock := setupTimedServer(t)
 	delayMs := 50
-	mock.Stub("helloworld.Greeter", "SayHello").
+	mock.Stub(sdk.By(helloworld.Greeter_SayHello_FullMethodName)).
 		Unary("name", "Slow", "message", "Hello Slow").
 		Delay(time.Duration(delayMs) * time.Millisecond).
 		Commit()
