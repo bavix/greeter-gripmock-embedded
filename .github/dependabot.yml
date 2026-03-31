@@ -2,14 +2,25 @@
 
 version: 2
 updates:
-  - package-ecosystem: github-actions
-    directory: "/"
+  - package-ecosystem: gomod
+    directory: /
     schedule:
       interval: daily
+    groups:
+      npm:
+        patterns:
+          - "*"
     open-pull-requests-limit: 10
-
-  - package-ecosystem: gomod
-    directory: "/"
+    commit-message:
+      prefix: "chore(go-deps)"
+  - package-ecosystem: github-actions
+    directory: /
     schedule:
-      interval: weekly
-    open-pull-requests-limit: 5
+      interval: daily
+    groups:
+      actions:
+        patterns:
+          - "*"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "ci(deps)"
