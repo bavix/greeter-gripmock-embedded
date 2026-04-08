@@ -7,7 +7,7 @@ updates:
     schedule:
       interval: daily
     groups:
-      npm:
+      go:
         patterns:
           - "*"
     open-pull-requests-limit: 10
