@@ -3,7 +3,7 @@ module github.com/bavix/greeter-gripmock-embedded
 go 1.26
 
 require (
-	github.com/bavix/gripmock/v3 v3.13.1
+	github.com/bavix/gripmock/v3 v3.14.0
 	github.com/stretchr/testify v1.11.1
 	google.golang.org/grpc v1.81.1
 	google.golang.org/protobuf v1.36.11
