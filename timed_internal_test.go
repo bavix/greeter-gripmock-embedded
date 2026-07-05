@@ -14,12 +14,11 @@ import (
 	sdk "github.com/bavix/gripmock/v3/pkg/sdk"
 )
 
-func runGreeterMock(t *testing.T) (sdk.Mock, helloworld.GreeterClient) {
+func runGreeterMock(t *testing.T) (*sdk.Server, helloworld.GreeterClient) {
 	t.Helper()
-	mock, err := sdk.Run(t, sdk.WithFileDescriptor(helloworld.File_greeter_proto))
-	require.NoError(t, err)
+	srv := sdk.NewServer(t, sdk.WithFileDescriptor(helloworld.File_greeter_proto))
 
-	return mock, helloworld.NewGreeterClient(mock.Conn())
+	return srv, helloworld.NewGreeterClient(srv.Conn())
 }
 
 func runTimedServer(t *testing.T, greeterClient helloworld.GreeterClient) timed.TimedGreeterClient {
@@ -41,23 +40,22 @@ func runTimedServer(t *testing.T, greeterClient helloworld.GreeterClient) timed.
 	return timed.NewTimedGreeterClient(conn)
 }
 
-func setupTimedServer(t *testing.T) (timed.TimedGreeterClient, sdk.Mock) {
+func setupTimedServer(t *testing.T) (timed.TimedGreeterClient, *sdk.Server) {
 	t.Helper()
-	mock, greeterClient := runGreeterMock(t)
+	srv, greeterClient := runGreeterMock(t)
 
-	return runTimedServer(t, greeterClient), mock
+	return runTimedServer(t, greeterClient), srv
 }
 
 func TestTimedGreeterSayHello(t *testing.T) {
 	t.Parallel()
 
 	// Arrange
-	client, mock := setupTimedServer(t)
+	client, srv := setupTimedServer(t)
 	delayMs := 20
-	mock.Stub(sdk.By(helloworld.Greeter_SayHello_FullMethodName)).
-		Unary("name", "Bob", "message", "Hello Bob").
-		Delay(time.Duration(delayMs) * time.Millisecond).
-		Commit()
+	srv.ExpectUnary(helloworld.Greeter_SayHello_FullMethodName).
+		Match("name", "Bob").
+		Return(sdk.Delay(time.Duration(delayMs)*time.Millisecond, "message", "Hello Bob"))
 
 	// Act
 	reply, err := client.SayHello(t.Context(), &timed.HelloRequest{Name: "Bob"})
@@ -72,13 +70,11 @@ func TestTimedGreeterSayHelloDynamicTemplate(t *testing.T) {
 	t.Parallel()
 
 	// Arrange
-	client, mock := setupTimedServer(t)
+	client, srv := setupTimedServer(t)
 	delayMs := 30
-	mock.Stub(sdk.By(helloworld.Greeter_SayHello_FullMethodName)).
-		When(sdk.Matches("name", ".+")).
-		Return("message", "Hi {{.Request.name}}").
-		Delay(time.Duration(delayMs) * time.Millisecond).
-		Commit()
+	srv.ExpectUnary(helloworld.Greeter_SayHello_FullMethodName).
+		Match(sdk.Matches("name", ".+")).
+		Return(sdk.Delay(time.Duration(delayMs)*time.Millisecond, "message", "Hi {{.Request.name}}"))
 
 	// Act
 	reply, err := client.SayHello(t.Context(), &timed.HelloRequest{Name: "Alex"})
@@ -93,12 +89,11 @@ func TestTimedGreeterSayHelloWithDelay(t *testing.T) {
 	t.Parallel()
 
 	// Arrange
-	client, mock := setupTimedServer(t)
+	client, srv := setupTimedServer(t)
 	delayMs := 50
-	mock.Stub(sdk.By(helloworld.Greeter_SayHello_FullMethodName)).
-		Unary("name", "Slow", "message", "Hello Slow").
-		Delay(time.Duration(delayMs) * time.Millisecond).
-		Commit()
+	srv.ExpectUnary(helloworld.Greeter_SayHello_FullMethodName).
+		Match("name", "Slow").
+		Return(sdk.Delay(time.Duration(delayMs)*time.Millisecond, "message", "Hello Slow"))
 
 	// Act
 	reply, err := client.SayHello(t.Context(), &timed.HelloRequest{Name: "Slow"})
