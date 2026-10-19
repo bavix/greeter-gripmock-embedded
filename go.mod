@@ -3,7 +3,7 @@ module github.com/bavix/greeter-gripmock-embedded
 go 1.26.0
 
 require (
-	github.com/bavix/gripmock/v3 v3.23.3
+	github.com/bavix/gripmock/v3 v3.23.4
 	github.com/stretchr/testify v1.12.1
 	google.golang.org/grpc v1.84.0
 	google.golang.org/protobuf v1.36.12
@@ -13,8 +13,8 @@ require (
 	github.com/andybalholm/brotli v1.2.6 // indirect
 	github.com/apapsch/go-jsonmerge/v2 v2.0.0 // indirect
 	github.com/bavix/features v1.0.4 // indirect
-	github.com/bmatcuk/doublestar/v4 v4.10.2 // indirect
-	github.com/brianvoe/gofakeit/v7 v7.17.1 // indirect
+	github.com/bmatcuk/doublestar/v4 v4.10.3 // indirect
+	github.com/brianvoe/gofakeit/v7 v7.18.0 // indirect
 	github.com/bufbuild/protocompile v0.14.2-0.20260414195949-1188a46c0129 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/cockroachdb/errors v1.14.0 // indirect
